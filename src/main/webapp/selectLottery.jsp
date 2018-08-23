@@ -12,9 +12,9 @@
 <body>
 	<form:form modelAttribute="userForm" method="POST" action="selectLotteryNumbers">
 	<div>
+	${message}
 		<h3>Filters</h3>
-		<input type="text" id="startingNumber" placeholder="Starting Number" />
-		<input type="text" id="endingNumber" placeholder="Ending Number" />
+		<input type="text" id="number" placeholder="Lucky Number" />
 		<input type="button" onclick="filterlottery()" value="Search" />
 		<hr/>
 		<hr/>
@@ -52,10 +52,8 @@
 
 <script type="text/javascript">
 	function filterlottery() {
-		var startingNumber = $("#startingNumber").val();
-		var endingNumber = $("#endingNumber").val();
-		var data = {start:startingNumber, end:endingNumber};
-		 $.get("filterLotteryNumbers",{start:startingNumber, end:endingNumber}, function(data, status){
+		var number = $("#number").val();
+		$.get("filterLotteryNumbers",{number:number}, function(data, status){
 		        console.log("Data length: " + data.length + "\nStatus: " + status);
 		        $("#lotteries").empty();
 		        var checkboxTags="";

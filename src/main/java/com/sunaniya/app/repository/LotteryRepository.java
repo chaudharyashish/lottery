@@ -11,9 +11,9 @@ import com.sunaniya.app.model.Lottery;
 
 public interface LotteryRepository extends JpaRepository<Lottery, Long> {
 
-	 @Query("Select l from Lottery l where l.isAllotted=:isAllott AND l.lotteryNumber like %:start OR l.lotteryNumber like :end%")
-     List<Lottery> findByAllottedAndLotteryNumberContaining(@Param("isAllott")boolean isAllotted, @Param("start")String start, @Param("end")String end);
+	 @Query("Select l from Lottery l where l.allotted=:isAllott AND l.lotteryNumber like %:number%")
+     List<Lottery> findByAllottedAndLotteryNumberContaining(@Param("isAllott")boolean isAllotted, @Param("number")String number);
 	 
-//	 @Query("Select l from Lottery l where l.isAlloted=:isAllotted")
+//	 @Query("Select l from Lottery l where l.alloted=:isAllotted")
      List<Lottery> findByAllotted(boolean isAllotted, Pageable pageable);
 }

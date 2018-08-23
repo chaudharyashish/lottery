@@ -27,8 +27,8 @@ public class UserValidator implements Validator {
             errors.rejectValue("firstName", "NotEmpty");
         }
         
-        if(user.getEmailId().isEmpty() && user.getMobileNumber() == null) {
-        	errors.rejectValue("emailId", "EmailOrMobile");
+        if(user.getMobileNumber() == null) {
+        	errors.rejectValue("mobileNumber", "MobileNotEmpty");
         }
         
         /*if (userService.findByUsername(user.getUsername()) != null) {
