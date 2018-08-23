@@ -31,7 +31,7 @@
 <div class="container">
 
     <form:form method="POST" modelAttribute="userForm" class="form-signin">
-        <h2 class="form-signin-heading">Create your account</h2>
+        <h2 class="form-signin-heading">Register Yourself...</h2>
         
         <spring:bind path="firstName">
             <div class="form-group ${status.error ? 'has-error' : ''}">
@@ -126,8 +126,7 @@
                 			id="pincode"
                             path="pincode" 
                             class="form-control" 
-                            placeholder="Pincode"
-                            onchange="loadCityandState();" />
+                            placeholder="Pincode"/>
                 
                <form:errors path="pincode"></form:errors>
             </div>

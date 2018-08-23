@@ -33,6 +33,24 @@ import com.sunaniya.app.validators.UserValidator;
 public class LotteryController {
 
 
+	@Value("${lotteryPrefix}")
+	private String lotteryPrefix;
+
+	@Value("${staringNumber}")
+	private String staringNumber;
+
+	@Value("${endingNumber}")
+	private String endingNumber;
+
+	@Value("${limitOfLotteriesToSaveAtOnce}")
+	private String limitOfLotteriesToSaveAtOnce;
+
+	@Value("${numberOfPrize}")
+	private String numberOfPrize;
+
+	@Value("${lotteryNumber}")
+	private String lotteryNumber;
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -42,13 +60,13 @@ public class LotteryController {
 	@Autowired
 	private UserValidator userValidator;
 
-	@RequestMapping(value = "/registration", method = RequestMethod.GET)
+	@RequestMapping(value = {"/","/registration"}, method = RequestMethod.GET)
 	public String registration(Model model) {
 		model.addAttribute("userForm", new UserForm());
 		return "registration";
 	}
 
-	@RequestMapping(value = "/registration", method = RequestMethod.POST)
+	@RequestMapping(value = {"/","/registration"}, method = RequestMethod.POST)
 	public String registration(@ModelAttribute("userForm") UserForm userForm, BindingResult bindingResult, Model model) {
 		userValidator.validate(userForm, bindingResult);
 
@@ -56,20 +74,20 @@ public class LotteryController {
 			return "registration";
 		}
 
-		/* User user = new User();
-        user.setFirstName(userForm.getFirstName());
-        user.setLastName(userForm.getLastName());
-        user.setMobileNumber(userForm.getMobileNumber());
-        user.setEmailId(userForm.getEmailId());
-        user.setAddress1(userForm.getAddress1());
-        user.setAddress2(userForm.getAddress2());
-        user.setCity(userForm.getCity());
-        user.setState(userForm.getState());
-        user.setPincode(userForm.getPincode());
-        user.setCreatedDate(new Date());
+		User user = new User();
+		user.setFirstName(userForm.getFirstName());
+		user.setLastName(userForm.getLastName());
+		user.setMobileNumber(userForm.getMobileNumber());
+		user.setEmailId(userForm.getEmailId());
+		user.setAddress1(userForm.getAddress1());
+		user.setAddress2(userForm.getAddress2());
+		user.setCity(userForm.getCity());
+		user.setState(userForm.getState());
+		user.setPincode(userForm.getPincode());
+		user.setCreatedDate(new Date());
 
-        User savedUser = userRepository.save(user);
-        userForm.setId(savedUser.getId());*/
+		User savedUser = userRepository.save(user);
+		userForm.setId(savedUser.getId());
 
 		List<Lottery> lotteryList = lotteryRepository.findByAllotted(false, new PageRequest(1, 100));
 		model.addAttribute("userForm", userForm);
@@ -100,10 +118,8 @@ public class LotteryController {
 
 		//Validate user data
 		if(userForm.getMobileNumber() == null) {
-			//invalid way to post data
-			model.addAttribute("message", "INVALID USER");
-			return "selectLottery";
-
+			//invalid way to post data, some invalid user is coming
+			return "failure";
 		}
 
 		//calculate payment amount
@@ -140,34 +156,6 @@ public class LotteryController {
 		return "success";
 	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String login(Model model, String error, String logout) {
-		if (error != null)
-			model.addAttribute("error", "Your username and password is invalid.");
-
-		if (logout != null)
-			model.addAttribute("message", "You have been logged out successfully.");
-
-		return "login";
-	}
-
-	@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
-	public String welcome(Model model) {
-		return "welcome";
-	}
-
-	@Value("${lotteryPrefix}")
-	private String lotteryPrefix;
-
-	@Value("${staringNumber}")
-	private String staringNumber;
-
-	@Value("${endingNumber}")
-	private String endingNumber;
-
-	@Value("${limitOfLotteriesToSaveAtOnce}")
-	private String limitOfLotteriesToSaveAtOnce;
-
 	@RequestMapping(value = {"/loadLotteryNumbers"}, method = RequestMethod.GET)
 	public void loadLotteryNumbersInDb(HttpServletResponse response) throws IOException {
 
@@ -191,13 +179,6 @@ public class LotteryController {
 	}
 
 
-	@Value("${numberOfPrize}")
-	private String numberOfPrize;
-
-	@Value("${lotteryNumber}")
-	private String lotteryNumber;
-
-
 	@RequestMapping(value = {"/generatePrize"}, method = RequestMethod.GET)
 	public String generatePrize(HttpServletResponse response, Model model) throws IOException {
 
@@ -218,5 +199,24 @@ public class LotteryController {
 		return "prizelottery";
 	}
 
+
+
+	/************** BANISHED CONTROLLERS ***************/
+
+	/*	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String login(Model model, String error, String logout) {
+		if (error != null)
+			model.addAttribute("error", "Your username and password is invalid.");
+
+		if (logout != null)
+			model.addAttribute("message", "You have been logged out successfully.");
+
+		return "login";
+	}*/
+
+	/*@RequestMapping(value = {"/", "/welcome"}, method = RequestMethod.GET)
+	public String welcome(Model model) {
+		return "welcome";
+	}*/
 
 }

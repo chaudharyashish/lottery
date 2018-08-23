@@ -6,4 +6,8 @@ import com.sunaniya.app.model.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 
+	User findByMobileNumber(Long mobileNumber);
+
+	User findByEmailId(String emaiId);
+
 }
